@@ -1,4 +1,4 @@
-# Articulation and Acoustics at Onset of Speec - Results from delayed naming
+# Articulation and Acoustics at Onset of Speech - Results from delayed naming
 
 Talk at Geneva Psycholinguistics Labseminar  
 
