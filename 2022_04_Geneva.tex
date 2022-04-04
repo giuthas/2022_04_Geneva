@@ -47,7 +47,7 @@ Results from delayed naming}
   \begin{itemize}
   \item Introduction, backgroung and motivation
   \item Materials: Copying the previous -- with a twist
-  \item Methods: Digging deeper into ultrasound
+  \item Methods: Algorithms for processing ultrasound
   \item Results: Revisiting the beginning
   \item Tentative theory
   \item Conclusion
@@ -59,11 +59,8 @@ Results from delayed naming}
 \frame{\frametitle{Introduction I} 
   
   \begin{itemize}
-  \item Our story starts with speech reaction times (RTs), which are
-    an important tool in psycholinguistics.
-  \item Speech RTs are usually measured based on acoustics even though
-    this is known to be problematic
-    \citep{Rastle:CMN:2002,Rastle:CME:2005}.
+  \item Speech RTs are usually measured based on acoustics even though this is
+    known to be problematic \citep{Rastle:CMN:2002,Rastle:CME:2005}.
   \item Direct measurement of movement onset gives a more detailed and
     a more appropriate method of evaluating speech reaction times,
     while at the same time making it possible to study the motor
@@ -296,7 +293,7 @@ is how the different intervals in different articles -- including
   \end{center}
 }
 
-\frame{\frametitle{Algorithms: Pixel Difference (PD)} 
+\frame{\frametitle{Algorithms 1: Pixel Difference (PD)} 
 
   \begin{itemize}
   \item Interpret each raw frame as a huge N-dimensional vector ($n =
@@ -312,7 +309,7 @@ is how the different intervals in different articles -- including
 
 }
 
-\frame{\frametitle{Algorithms: Pixel Difference (PD)} 
+\frame{\frametitle{Algorithms 1: Pixel Difference (PD)} 
 
   \includegraphics[width=\columnwidth]{PD_metric_d1.pdf}
   % generated with source/PD_by_scanline/thesis_PD_chapter_batch.m
@@ -322,21 +319,22 @@ is how the different intervals in different articles -- including
   
 }
 
-\frame{\frametitle{Algorithms 2: Scanline Based Pixel Difference (SBPD)} 
+\frame{\frametitle{Algorithms 2: Automated onset detection} 
   \begin{itemize}
-  \item Take each of the scanlines (63 in our case) as a smaller
-    M-dimensional vector ($m = 256$ in our case).
-  \item Calculate the Euclidean distances between corresponding
-    scanlines between frames.
-  \item Result gives a measure of change between two frames with
-    location (in sagittal plane, back to front) presented by the
-    scanline number.
-  \item By applying dynamic time warping with a test function to each
-    scanline's PD curve we get a vector of 63 onset times for each
-    recording. 
-  \item Taking the median of the individual onset candidates has
-    proven to be a reliable way of automating onset detection
-    \citep{Palo:MPS:2019}.
+  \item Looking at clear examples like the previous one, it would seem
+  reasonable to automate the onset detection task.
+  \item Reality -- as usual -- is a bit more complex than that and simple
+  automation tends to produce unreliable results even for fairly clear cases.
+  \item The solution is broadly as follows:
+    \begin{itemize}
+      \item Calculate PD for each scanline -- 63 in this data. (This is called
+      Scanline Based Pixel Difference or SBPD).
+      \item Use Dynamice Time Warping to find the movement onset for each
+      scanline.
+      \item Use the median of these as the onset for a given trial.
+    \end{itemize}
+  \item This approach has been validated against other methods of detecting
+    movement onset in ultrasound data \citep{Palo:MPS:2019}.
   \end{itemize}
 }
 
@@ -505,6 +503,26 @@ is how the different intervals in different articles -- including
     \hspace*{-1.3cm}
     \includegraphics[width=1.18\textwidth]{pd_annotation.png}
   \end{center}
+
+}
+
+\frame{\frametitle{Scanline Based Pixel Difference (SBPD)}
+
+\begin{itemize}
+  \item Take each of the scanlines (63 in our case) as a smaller
+  M-dimensional vector ($m = 256$ in our case).
+  \item Calculate the Euclidean distances between corresponding
+  scanlines between frames.
+  \item Result gives a measure of change between two frames with
+  location (in sagittal plane, back to front) presented by the
+  scanline number.
+  \item By applying dynamic time warping with a test function to each
+  scanline's PD curve we get a vector of 63 onset times for each
+  recording. 
+  \item Taking the median of the individual onset candidates has
+  proven to be a reliable way of automating onset detection
+  \citep{Palo:MPS:2019}.  
+\end{itemize}
 
 }
 
